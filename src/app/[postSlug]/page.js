@@ -5,8 +5,19 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import styles from "./postSlug.module.css";
 import { loadBlogPost } from "@/helpers/file-helpers";
 
+const cachedLoadBlogPost = React.cache(loadBlogPost);
+
+export async function generateMetadata({ params }) {
+  const { frontmatter } = await cachedLoadBlogPost(params.postSlug);
+
+  return {
+    title: frontmatter.title,
+    description: frontmatter.abstract,
+  };
+}
+
 async function BlogPost({ params }) {
-  const { frontmatter, content } = await loadBlogPost(params.postSlug);
+  const { frontmatter, content } = await cachedLoadBlogPost(params.postSlug);
 
   return (
     <article className={styles.wrapper}>
