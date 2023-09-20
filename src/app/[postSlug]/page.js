@@ -4,6 +4,7 @@ import BlogHero from "@/components/BlogHero";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import styles from "./postSlug.module.css";
 import { loadBlogPost } from "@/helpers/file-helpers";
+import CodeSnippet from "@/components/CodeSnippet";
 
 const cachedLoadBlogPost = React.cache(loadBlogPost);
 
@@ -26,7 +27,7 @@ async function BlogPost({ params }) {
         publishedOn={frontmatter.publishedOn}
       />
       <div className={styles.page}>
-        <MDXRemote source={content} />
+        <MDXRemote source={content} components={{ CodeSnippet }} />
       </div>
     </article>
   );
